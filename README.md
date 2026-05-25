@@ -1,21 +1,21 @@
-# Etizan — AI-Powered Smart Scale Health Platform
+# Etizan (AI Powered Smart Scale Health Platform)
 
-A full-stack health monitoring platform that integrates with the Withings Body Smart scale to track body composition measurements and uses Google Gemini AI to generate personalized health analysis. Built with three specialized medical analyzers for general health, pregnancy, and kidney disease — each producing condition-specific alerts based on the user's health profile.
+A full stack health monitoring platform that integrates with the Withings Body Smart scale to track body composition measurements and uses Google Gemini AI to generate personalized health analysis. Built with three specialized medical analyzers for general health, pregnancy, and kidney disease each producing condition specific alerts based on the user's health profile.
 
 ## Why We Built This
 
-Standard smart scale apps show you numbers but never tell you what they mean for your specific situation. A 2 kg weight gain means something completely different for a pregnant woman, a dialysis patient, or a healthy adult. We built Etizan to bridge that gap — pulling real body composition data from a medical-grade scale and running it through health-condition-aware logic that gives users actually useful feedback rather than raw metrics.
+Standard smart scale apps show you numbers but never tell you what they mean for your specific situation. A 2 kg weight gain means something completely different for a pregnant woman, a dialysis patient, or a healthy adult. We built Etizan to bridge that gap pulling real body composition data from a medical grade scale and running it through health condition aware logic that gives users actually useful feedback rather than raw metrics.
 
 ## Features
 
-- **Withings OAuth2 integration** — connects to the Withings Body Smart scale via the official API, pulling weight, BMI, fat ratio, muscle mass, bone mass, heart rate, hydration, and visceral fat in real time via webhooks
-- **Three specialized AI analyzers** — separate analysis engines for general health, pregnancy, and kidney/dialysis patients, each with condition-specific alert thresholds and logic
-- **Google Gemini AI health summaries** — natural language health insights generated from the user's full body composition profile
-- **Alert system** — categorized alerts (info / warning / critical) for fluid retention, BMI changes, fat ratio trends, heart rate anomalies, and muscle loss
-- **Symptom logging** — users can log daily symptoms that feed into the health analysis
-- **JWT authentication** — secure token-based auth with a 7-day session
-- **Dockerized deployment** — single `docker-compose up` starts the entire stack (PostgreSQL, FastAPI backend, React frontend)
-- **Async backend** — built on async SQLAlchemy and FastAPI for high-performance non-blocking I/O
+- **Withings OAuth2 integration**: connects to the Withings Body Smart scale via the official API, pulling weight, BMI, fat ratio, muscle mass, bone mass, heart rate, hydration, and visceral fat in real time via webhooks
+- **Three specialized AI analyzers**: separate analysis engines for general health, pregnancy, and kidney/dialysis patients, each with condition specific alert thresholds and logic
+- **Google Gemini AI health summaries**: natural language health insights generated from the user's full body composition profile
+- **Alert system**: categorized alerts (info / warning / critical) for fluid retention, BMI changes, fat ratio trends, heart rate anomalies, and muscle loss
+- **Symptom logging**: users can log daily symptoms that feed into the health analysis
+- **JWT authentication**: secure token-based auth with a 7 day session
+- **Dockerized deployment**: single `docker-compose up` starts the entire stack (PostgreSQL, FastAPI backend, React frontend)
+- **Async backend**: built on async SQLAlchemy and FastAPI for high performance non-blocking I/O
 
 ## Tech Stack
 
@@ -76,8 +76,8 @@ etizan/
 ### Prerequisites
 
 - Docker and Docker Compose installed
-- A Withings developer account — register at https://developer.withings.com to get `WITHINGS_CLIENT_ID` and `WITHINGS_CLIENT_SECRET`
-- A Google Gemini API key — get one at https://aistudio.google.com
+- A Withings developer account: register at https://developer.withings.com to get `WITHINGS_CLIENT_ID` and `WITHINGS_CLIENT_SECRET`
+- A Google Gemini API key: get one at https://aistudio.google.com
 
 ### Quick Start with Docker (recommended)
 
@@ -147,11 +147,11 @@ GEMINI_API_KEY=         # From Google AI Studio
 
 ## Technical Challenge
 
-The hardest problem was designing the three-way analyzer system so that each condition's logic stays isolated without duplicating the shared Withings data parsing.
+The hardest problem was designing the three way analyzer system so that each condition's logic stays isolated without duplicating the shared Withings data parsing.
 
-The scale sends 15+ body composition metrics in a single payload. Each analyzer (general, pregnancy, kidney) needed access to the same parsed measurement but had to apply completely different thresholds and alert logic — for example, fluid retention of 1.5 kg is a warning for general users but a critical emergency for a kidney dialysis patient.
+The scale sends 15+ body composition metrics in a single payload. Each analyzer (general, pregnancy, kidney) needed access to the same parsed measurement but had to apply completely different thresholds and alert logic for example, fluid retention of 1.5 kg is a warning for general users but a critical emergency for a kidney dialysis patient.
 
-The solution was a shared `AlertResult` dataclass defined in the pregnancy analyzer and imported by all three, with a dispatcher in the analysis route that checks the user's health profile and routes the measurement to the correct analyzer. This kept each analyzer self-contained and made it straightforward to add new condition-specific analyzers later without touching the shared infrastructure.
+The solution was a shared `AlertResult` dataclass defined in the pregnancy analyzer and imported by all three, with a dispatcher in the analysis route that checks the user's health profile and routes the measurement to the correct analyzer. This kept each analyzer self contained and made it straightforward to add new condition specific analyzers later without touching the shared infrastructure.
 
 ## License
 
